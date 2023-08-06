@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 
 from pathlib import Path
 from environs import Env
+import socket
 
 env = Env()
 env.read_env()
@@ -47,6 +48,7 @@ INSTALLED_APPS = [
     "crispy_bootstrap5",
     "allauth",
     "allauth.account",
+    "debug_toolbar",
     #  Local
     "accounts.apps.AccountsConfig",
     "pages.apps.PagesConfig",
@@ -54,6 +56,7 @@ INSTALLED_APPS = [
 ]
 
 MIDDLEWARE = [
+    "django.middleware.cache.UpdateCacheMiddleware",
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
@@ -61,6 +64,8 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
+    "debug_toolbar.middleware.DebugToolbarMiddleware",
+    "django.middleware.cache.FetchFromCacheMiddleware",
 ]
 
 ROOT_URLCONF = "django_project.urls"
@@ -164,3 +169,12 @@ EMAIL_HOST_USER = env.str("EMAIL_HOST_USER")
 EMAIL_HOST_PASSWORD = env.str("EMAIL_HOST_PASSWORD")
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
+
+# django debug toolbar
+hostname, _, ips = socket.gethostbyname_ex(socket.gethostname())
+INTERNAL_IPS = [ip[:-1] + "1" for ip in ips]
+
+# caching
+CACHE_MIDDLEWARE_ALIAS = "default"
+CACHE_MIDDLEWARE_SECONDS = 604800
+CACHE_MIDDLEWARE_KEY_PREFIX = ""
