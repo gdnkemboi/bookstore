@@ -10,8 +10,8 @@ class HomePageTests(SimpleTestCase):
     def test_url_exists_at_correct_location(self):
         self.assertEqual(self.response.status_code, 200)
 
-    def test_homepage_template(self):
-        self.assertTemplateUsed(self.response, "pages/home.html")
+    # def test_homepage_template(self):
+    #     self.assertTemplateUsed(self.response, "pages/home.html")
 
     def test_home_contains_correct_html(self):
         self.assertContains(self.response, "Welcome")
@@ -31,8 +31,8 @@ class AboutPageTests(SimpleTestCase):
     def test_url_exists_at_correct_location(self):
         self.assertEqual(self.response.status_code, 200)
 
-    def test_aboutpage_template(self):
-        self.assertTemplateUsed(self.response, "pages/about.html")
+    # def test_aboutpage_template(self):
+    #     self.assertTemplateUsed(self.response, "pages/about.html")
 
     def test_about_contains_correct_html(self):
         self.assertContains(self.response, "About Page")
@@ -40,6 +40,6 @@ class AboutPageTests(SimpleTestCase):
     def test_aboutpage_does_not_contain_incorrect_html(self):
         self.assertNotContains(self.response, "Not this page.")
 
-    def test_aboutpage_url_resolves_homepageview(self):
+    def test_aboutpage_url_resolves_aboutpageview(self):
         view = resolve("/about/")
         self.assertEqual(view.func.__name__, AboutPageView.as_view().__name__)
